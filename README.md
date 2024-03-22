@@ -1,7 +1,6 @@
 # MOVIES
 
-## Descripción
-Breve descripción del proyecto.
+
 
 ## Librerías Utilizadas
 - **@react-native-async-storage/async-storage**: Biblioteca para almacenamiento asíncrono en React Native.
@@ -18,11 +17,6 @@ Breve descripción del proyecto.
 - **react-native-screens**: API de navegación para React Native.
 - **react-native-vector-icons**: Conjunto de iconos personalizables para React Native.
 
-## Instalación
-1. Clona este repositorio:
-
-   ```bash
-   git clone https://github.com/tu-usuario/nombre-del-proyecto.git
 
 
 ## INSTALAR DEPENDENCIAS
