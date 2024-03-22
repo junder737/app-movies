@@ -27,7 +27,6 @@ const Favorites = ({navigation}) => {
   }
 
   const openDialogModalFavoritos = (item) => {
-    console.log("Pelicula seleccionada ", item);
     setModalVisible(!modalVisible);
     setPeliculaSeleccionada(item);
   }

@@ -41,7 +41,6 @@ function Details() {
         try {
             const responseData = await axios.get(`https://www.omdbapi.com/?apikey=648e09b9&i=${movie.imdbID}&plot=full&type=movie`);
             if (!responseData.data) {
-                // Mostrar que hubo un error al mostrar la data
                 return
             }
             setVisible(true);
@@ -59,7 +58,7 @@ function Details() {
                 return (pelicula.imdbID === nuevoFavorito.imdbID)
             })
             if (validarPelicula) {
-                setSnackbarMessage("Ya la tienes en favoritos.");
+                setSnackbarMessage("Ya tienes esta pelicula en favoritos.");
                 onToggleSnackBar();
                 return
             }
@@ -76,8 +75,8 @@ function Details() {
                 onToggleSnackBar();
             }
         } catch (e) {
-            console.log("ERROR AL GUARDAR", e);
-            // saving error
+            setSnackbarMessage("Error al agregar a favoritos");
+            
         }
     }
     return (
@@ -86,7 +85,9 @@ function Details() {
             <ScrollView>
             {
                 visible ? <Card.Content>
-                    <Card.Cover source={{ uri: detailMovie.Poster }} />
+                   {
+                       detailMovie.Poster !== "N/A" ? <Card.Cover source={{ uri: detailMovie.Poster }} /> : null
+                   }
                     <Text variant="displayLarge">{detailMovie.Title}</Text>
                     <Text variant="bodyMedium">{detailMovie.Plot}</Text>
                     <TagType style={styles.shortChip} data={detailMovie.Runtime} icon={"clock-outline"}></TagType>

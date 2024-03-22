@@ -37,9 +37,22 @@ const SearchBarComponent = ({navigation}) => {
             setIsLoading(false);
             setMovie(responseData.data.Search);
         } catch (error) {
-            console.log("Error al traer la data");
+            setMensajeBusqueda('Ocurrió un error al traer la información.');
         }
     }
+
+    const renderItem = ({ item }) => (
+        <TouchableRipple
+            onPress={() => navigation.navigate('Details', { movie: item })}
+            rippleColor="rgba(0, 0, 0, .32)">
+            <List.Item
+                title={item.Title}
+                description={`Año: ${item.Year}`}
+                left={props => <List.Icon {...props} icon="movie" />}
+                right={props => <List.Icon {...props} icon="chevron-right" />}
+            />
+        </TouchableRipple>
+    );
    
     return (
         <>
@@ -53,25 +66,11 @@ const SearchBarComponent = ({navigation}) => {
 
             />
             <Divider />
-           <ScrollView>
-           {
-                movie.map(element => (
-                    <TouchableRipple
-                        onPress={() => console.log('Pressed')}
-                        rippleColor="rgba(0, 0, 0, .32)"
-                    >
-                        <List.Item
-                            key={element.imdbID}
-                            title={element.Title}
-                            description={"Año: "+element.Year}
-                            left={props => <List.Icon {...props} icon="movie" />}
-                            right={props => <List.Icon {...props} icon="chevron-right" />}
-                            onPress={() => navigation.navigate('Details', { movie: element })}
-                        />
-                    </TouchableRipple>
-                ))
-            }
-           </ScrollView>
+            <FlatList
+                    data={movie}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.imdbID}
+                />
 
             {
                 isLoading && <ProgressBar indeterminate={true} color="blue" />

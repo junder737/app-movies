@@ -11,7 +11,9 @@ const ModalFavorite = ({ modalVisible, setModalVisible, peliculaSeleccionada }) 
         <Dialog.Title>{peliculaSeleccionada.Title}</Dialog.Title>
         <Dialog.Content>
 
-        <Card.Cover source={{ uri: peliculaSeleccionada.Poster }} />
+       {
+         (peliculaSeleccionada.Poster !== "N/A" && <Card.Cover source={{ uri: peliculaSeleccionada.Poster }} />)
+       }
         <Text variant="bodyMedium">{peliculaSeleccionada.Plot}</Text>
             <TagType style={styles.shortChip} data={peliculaSeleccionada.Runtime} icon={"clock-outline"}></TagType>
             <TagType style={styles.shortChip} data={peliculaSeleccionada.Language} icon={"book"}> </TagType>
