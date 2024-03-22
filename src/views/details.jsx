@@ -98,7 +98,7 @@ function Details() {
                     <TagType style={styles.longChip} data={"Director: " + detailMovie.Director} icon={"account"}> </TagType>
                     <TagType style={styles.longChip} data={"Estreno: " + detailMovie.Released + ""} icon={"calendar"}> </TagType>
                     <Button mode="contained" style={styles.btnFavorite} onPress={() => addFavorites(detailMovie)} icon="heart">Agregar a Favoritos</Button>
-                </Card.Content> : <ActivityIndicator animating={true} color={MD2Colors.red800} />
+                </Card.Content> : <ActivityIndicator animating={true} style={styles.loading} size={"large"} color={MD2Colors.red800} />
             }
             <Snackbar
                         visible={isLoading}
@@ -133,6 +133,9 @@ const styles = StyleSheet.create({
         marginBottom: 5
       },
       btnFavorite: {
+        marginTop: 10
+      },
+      loading:{
         marginTop: 10
       }
 });
