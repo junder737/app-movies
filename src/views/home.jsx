@@ -36,6 +36,9 @@ const HomeStack = () => {
   );
 };
 
+// STACK DE HOME QUE TENDRA LA NAVEGACIÓN Y ESTILOS DEL BOTTOM NAVIGATION DE REACT NATIVE PAPER 
+
+
 export default function Home() {
     return (
       <Tab.Navigator
