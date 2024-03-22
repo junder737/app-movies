@@ -20,18 +20,13 @@ const HomeScreen = ({ navigation }) => {
   )
 }
 
-const FavoritesScreen = ({ navigation }) => {
-  return (
-    <Favorites />
-  )
-}
-
 const DetailsScreen = ({ navigation }) => {
   return (
     <Details navigation={navigation} />
   )
 }
 
+ {/* STACK DE PANTALLA home a detail, Dejando a DetailScreen como segunda pantalla de la app */}
 const HomeStack = () => {
   return (
     <Stack.Navigator>
@@ -89,6 +84,7 @@ export default function Home() {
           />
         )}
       >
+        {/* STACK DE PANTALLA EN EL TAB NAVIGATOR */}
         <Tab.Screen
           name="HomeStack"
           component={HomeStack}
@@ -109,6 +105,7 @@ export default function Home() {
               },
           }}
         />
+
       </Tab.Navigator>
     );
   }

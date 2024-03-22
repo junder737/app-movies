@@ -28,6 +28,7 @@ function Details() {
 
     const getFavorites = async () => {
         try {
+            // Obtengo los favoritos del storage usando un indentificado, en este caso puse "clave"
             const value = await AsyncStorage.getItem('clave');
             if (value !== null) {
                 const parsedFavorites = JSON.parse(value);
@@ -40,6 +41,7 @@ function Details() {
     };
     const getDetailMovie = async () => {
         try {
+            // Obtengo la data de la API pero en este caso en plot full para obtener todos los detalles, ademas validando de que sea una pelicula 
             const responseData = await axios.get(`https://www.omdbapi.com/?apikey=648e09b9&i=${movie.imdbID}&plot=full&type=movie`);
             if (!responseData.data) {
                 return
@@ -55,6 +57,7 @@ function Details() {
     const addFavorites = async (movie) => {
         try {
             const nuevoFavorito = movie;
+            // Validar que el favorito no exista
             const validarPelicula = favorites.some((pelicula) => {
                 return (pelicula.imdbID === nuevoFavorito.imdbID)
             })
@@ -63,10 +66,12 @@ function Details() {
                 onToggleSnackBar();
                 return
             }
+            // Agregar el nuevo favorito
             const nuevosFavoritos = [...favorites, nuevoFavorito];
 
 
             try {
+                // Almacenar el nuevo favorito en el storage
                 await AsyncStorage.setItem('clave', JSON.stringify(nuevosFavoritos));
                 setFavorites(nuevosFavoritos);
                 setSnackbarMessage("Agregado correctamente");

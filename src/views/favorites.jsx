@@ -10,16 +10,15 @@ const Favorites = ({ navigation }) => {
   const [peliculaSeleccionada, setPeliculaSeleccionada] = useState({});
   const getFavorites = async () => {
     try {
+      // Obtengo los favoritos del storage usando un indentificado, en este caso puse "clave"
       const value = await AsyncStorage.getItem('clave');
 
       const parsedFavorites = JSON.parse(value);
+      // Valido de que venga algo en favoritos
       if (value !== null) {
         setFavorites(parsedFavorites);
-        console.log(typeof parsedFavorites);
       }
-      if (value !== null) {
-
-      }
+     
     } catch (e) {
       console.error('Error al leer favoritos:', e);
     }
