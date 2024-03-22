@@ -14,7 +14,6 @@ const Favorites = ({navigation}) => {
 
       const parsedFavorites = JSON.parse(value);
       if (value !== null) {
-        console.log("DATA FAVORITOS ", parsedFavorites);
         setFavorites(parsedFavorites);
         console.log(typeof parsedFavorites);
       }
@@ -40,6 +39,7 @@ const Favorites = ({navigation}) => {
     <View style={styles.container}>
 
 <Text variant="headlineMedium" style={styles.titleComponent}>Mis Favoritos</Text>
+<Text variant="bodyLarge" style={styles.subtitle}>Aqui se listarán todas las peliculas que haz agregado</Text>
       <FlatList
         data={favorites}
         renderItem={({ item }) => (
@@ -78,5 +78,11 @@ const styles = StyleSheet.create({
      marginLeft: 10,
      marginTop: 10
  },
+ subtitle: {
+  fontSize: 20,
+  fontWeight: 'bold',
+   marginLeft: 10,
+   marginTop: 10
+},
 });
 export default Favorites

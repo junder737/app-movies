@@ -34,7 +34,8 @@ function Details() {
                 setFavorites(parsedFavorites);
             }
         } catch (e) {
-            console.error('Error al leer favoritos:', e);
+            setSnackbarMessage("Error obtener la información de favoritos");
+            onToggleSnackBar();
         }
     };
     const getDetailMovie = async () => {
@@ -76,6 +77,7 @@ function Details() {
             }
         } catch (e) {
             setSnackbarMessage("Error al agregar a favoritos");
+            onToggleSnackBar();
             
         }
     }

@@ -109,17 +109,6 @@ export default function Home() {
               },
           }}
         />
-        {/*  <Tab.Screen
-          name="Details"
-          component={Details}
-          options={{
-            tabBarLabel: 'Detalles',
-            tabBarIcon: ({ color, size }) => {
-                return <Icon name="heart" size={size} color={color} />;
-              },
-           
-          }}
-        /> */}
       </Tab.Navigator>
     );
   }
