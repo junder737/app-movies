@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { View, FlatList, StyleSheet } from 'react-native'
+import { View, FlatList, StyleSheet, Image } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { List, Text, MD3Colors, TouchableRipple, Divider } from 'react-native-paper';
+import { List, Text, TouchableRipple, Divider } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import ModalFavorite from '../components/modal';
-const Favorites = ({navigation}) => {
+const Favorites = ({ navigation }) => {
   const [favorites, setFavorites] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [peliculaSeleccionada, setPeliculaSeleccionada] = useState({});
@@ -18,7 +18,7 @@ const Favorites = ({navigation}) => {
         console.log(typeof parsedFavorites);
       }
       if (value !== null) {
-      
+
       }
     } catch (e) {
       console.error('Error al leer favoritos:', e);
@@ -38,8 +38,8 @@ const Favorites = ({navigation}) => {
   return (
     <View style={styles.container}>
 
-<Text variant="headlineMedium" style={styles.titleComponent}>Mis Favoritos</Text>
-<Text variant="bodyLarge" style={styles.subtitle}>Aqui se listarán todas las peliculas que haz agregado</Text>
+      <Text variant="headlineMedium" style={styles.titleComponent}>Mis Favoritos</Text>
+      <Text variant="bodyLarge" style={styles.subtitle}>Aqui se listarán todas las peliculas que haz agregado</Text>
       <FlatList
         data={favorites}
         renderItem={({ item }) => (
@@ -57,12 +57,15 @@ const Favorites = ({navigation}) => {
                 />
               </List.Section>
             </TouchableRipple>
-            <Divider/>
+            <Divider />
           </View>
-         
+
+        )}
+        ListEmptyComponent={() => (
+          <Image source={require('../assets/no_data.png')} style={styles.noDataImage} />
         )}
       />
-  <ModalFavorite modalVisible={modalVisible} setModalVisible={setModalVisible} peliculaSeleccionada={peliculaSeleccionada}  />
+      <ModalFavorite modalVisible={modalVisible} setModalVisible={setModalVisible} peliculaSeleccionada={peliculaSeleccionada} />
     </View>
   )
 }
@@ -75,14 +78,17 @@ const styles = StyleSheet.create({
   titleComponent: {
     fontSize: 30,
     fontWeight: 'bold',
-     marginLeft: 10,
-     marginTop: 10
- },
- subtitle: {
-  fontSize: 20,
-  fontWeight: 'bold',
-   marginLeft: 10,
-   marginTop: 10
-},
+    marginLeft: 10,
+    marginTop: 10
+  },
+  subtitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: 10,
+    marginTop: 10
+  },
+  noDataImage: {
+    width: 500, height: 500, justifyContent: 'center', alignSelf: 'center'
+  }
 });
 export default Favorites
