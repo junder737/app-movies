@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Searchbar, Divider, List, TouchableRipple, Text, ProgressBar} from 'react-native-paper';
-import { FlatList, StyleSheet, Image } from 'react-native'
+import { FlatList, StyleSheet, Image, ScrollView} from 'react-native'
 
 import axios from 'axios';
 const SearchBarComponent = ({navigation}) => {
@@ -8,6 +8,7 @@ const SearchBarComponent = ({navigation}) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [movie, setMovie] = useState([]);
+    const [mensajeBusqueda, setMensajeBusqueda] = useState('Ingrese para realizar una busqueda');
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
@@ -19,18 +20,17 @@ const SearchBarComponent = ({navigation}) => {
         return () => clearTimeout(delayDebounceFn);
     }, [searchQuery]);
 
-
+    
     const handleGetMovies = async (movieInput) => {
         try {
-           
-            console.log("PRESS", movieInput);
             setSearchQuery(movieInput);
             setIsLoading(true);
-            const responseData = await axios.get(`https://www.omdbapi.com/?apikey=648e09b9&s=${movieInput}`);
-            console.log("data response ", responseData.data.Search);
+            const responseData = await axios.get(`https://www.omdbapi.com/?apikey=648e09b9&s=${movieInput}&type=movie`);
+
             if (!responseData.data.Search || !responseData.data.Search.length === 0) {
-               
+                setIsLoading(false);
                 setMovie([]);
+                setMensajeBusqueda('No se encontraron resultados');
                 return;
             } 
             
@@ -53,7 +53,8 @@ const SearchBarComponent = ({navigation}) => {
 
             />
             <Divider />
-            {
+           <ScrollView>
+           {
                 movie.map(element => (
                     <TouchableRipple
                         onPress={() => console.log('Pressed')}
@@ -62,18 +63,21 @@ const SearchBarComponent = ({navigation}) => {
                         <List.Item
                             key={element.imdbID}
                             title={element.Title}
-                            description={element.Year}
+                            description={"Año: "+element.Year}
                             left={props => <List.Icon {...props} icon="movie" />}
+                            right={props => <List.Icon {...props} icon="chevron-right" />}
                             onPress={() => navigation.navigate('Details', { movie: element })}
                         />
                     </TouchableRipple>
                 ))
             }
-           {/*  {
-                movie.length === 0 &&  <Image style={styles.noDataImage} source={require('../assets/no_data.png')}></Image>
-            } */}
+           </ScrollView>
+
             {
                 isLoading && <ProgressBar indeterminate={true} color="blue" />
+            }
+            {
+                movie.length === 0 && !isLoading && <Text variant="headlineMedium" style={styles.titleComponent}>{mensajeBusqueda}</Text>
             }
         </>
     );

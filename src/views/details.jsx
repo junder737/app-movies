@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, ScrollView } from 'react-native'
 import { Avatar, Card, IconButton, Chip, Button, List, Text, Snackbar, ActivityIndicator, MD2Colors } from 'react-native-paper';
 import TagType from '../components/chip';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -18,7 +18,7 @@ function Details() {
     useEffect(() => {
         getFavorites();
         getDetailMovie();
-        
+
 
     }, [])
 
@@ -39,7 +39,7 @@ function Details() {
     };
     const getDetailMovie = async () => {
         try {
-            const responseData = await axios.get(`https://www.omdbapi.com/?apikey=648e09b9&i=${movie.imdbID}&plot=full`);
+            const responseData = await axios.get(`https://www.omdbapi.com/?apikey=648e09b9&i=${movie.imdbID}&plot=full&type=movie`);
             if (!responseData.data) {
                 // Mostrar que hubo un error al mostrar la data
                 return
@@ -64,8 +64,8 @@ function Details() {
                 return
             }
             const nuevosFavoritos = [...favorites, nuevoFavorito];
-            
-           
+
+
             try {
                 await AsyncStorage.setItem('clave', JSON.stringify(nuevosFavoritos));
                 setFavorites(nuevosFavoritos);
@@ -82,35 +82,34 @@ function Details() {
     }
     return (
         <View style={styles.container} >
-            {/* <Card.Cover source={{ uri: detailMovie.Poster }} /> */}
-
+            
+            <ScrollView>
             {
-                visible ? <><Card.Content>
-                <Text variant="displayLarge">{detailMovie.Title}</Text>
-                <Text variant="titleLarge">{detailMovie.Writer}</Text>
-                <Text variant="bodyMedium">{detailMovie.Plot}</Text>
-                <List.Section>
-                    <List.Item title={detailMovie.Genre} left={() => <List.Icon icon="movie" />} />
-                    <List.Item
-                        title={detailMovie.Year}
-                        left={() => <List.Icon icon="calendar" />}
-                    />
-                </List.Section>
-                <Button mode="contained" onPress={() => addFavorites(movie)} icon="heart">Agregar a Favoritos</Button>
-            </Card.Content>
-            <Snackbar
-                visible={isLoading}
-                onDismiss={onDismissSnackBar}
-                action={{
-                    label: 'Ok',
-                    onPress: () => { 
-                        
-                       }
-                    
-                }}>
-                {snackbarMessage}
-            </Snackbar></> : <ActivityIndicator animating={true} color={MD2Colors.red800} />
+                visible ? <Card.Content>
+                    <Card.Cover source={{ uri: detailMovie.Poster }} />
+                    <Text variant="displayLarge">{detailMovie.Title}</Text>
+                    <Text variant="bodyMedium">{detailMovie.Plot}</Text>
+                    <TagType style={styles.shortChip} data={detailMovie.Runtime} icon={"clock-outline"}></TagType>
+                    <TagType style={styles.shortChip} data={detailMovie.Language} icon={"book"}> </TagType>
+                    <TagType style={styles.longChip} data={"Género: " + detailMovie.Genre} icon={"movie"}> </TagType>
+                    <TagType style={styles.longChip} data={"Director: " + detailMovie.Director} icon={"account"}> </TagType>
+                    <TagType style={styles.longChip} data={"Estreno: " + detailMovie.Released + ""} icon={"calendar"}> </TagType>
+                    <Button mode="contained" style={styles.btnFavorite} onPress={() => addFavorites(detailMovie)} icon="heart">Agregar a Favoritos</Button>
+                </Card.Content> : <ActivityIndicator animating={true} color={MD2Colors.red800} />
             }
+            <Snackbar
+                        visible={isLoading}
+                        onDismiss={onDismissSnackBar}
+                        action={{
+                            label: 'Ok',
+                            onPress: () => {
+
+                            }
+
+                        }}>
+                        {snackbarMessage}
+                    </Snackbar>
+            </ScrollView>
         </View>
     )
 }
@@ -118,7 +117,20 @@ function Details() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-       
+
     },
+    shortChip: {
+        marginTop: 5,
+        width: '30%',
+        marginBottom: 5
+      },
+      longChip: {
+        marginTop: 5,
+        width: '100%',
+        marginBottom: 5
+      },
+      btnFavorite: {
+        marginTop: 10
+      }
 });
 export default Details

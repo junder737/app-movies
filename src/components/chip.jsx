@@ -1,8 +1,8 @@
 import React from 'react'
 import { Chip } from 'react-native-paper';
 
-const TagType = ({type}) => (
-  <Chip icon="information" >{type}</Chip>
+const TagType = ({data,icon, style}) => (
+  <Chip style={style} icon={icon} >{data}</Chip>
 );
 
 export default TagType;
